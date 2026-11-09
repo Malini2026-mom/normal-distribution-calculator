@@ -1,0 +1,25 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>GeoGebra Applet</title>
+<style>body{margin:0;font:13px Arial}</style></head><body>
+<div id="ggb-element"></div>
+<div id="dbg" style="padding:6px;color:#555"></div>
+<script src="https://www.geogebra.org/apps/deployggb.js"></script>
+<script>
+var params = {
+  appName: "classic",
+  material_id: "ze8zhwde",
+  width: 780,
+  height: 500,
+  appletOnLoad: function (api) {
+    var names = api.getAllObjectNames();
+    var lines = [];
+    for (var i = 0; i !== names.length; i++) {
+      lines.push(names[i] + " (" + api.getObjectType(names[i]) + ") = " + api.getValueString(names[i]));
+    }
+    document.getElementById("dbg").innerHTML = lines.join("<br>");
+  }
+};
+var applet = new GGBApplet(params, true);
+window.addEventListener("load", function () { applet.inject("ggb-element"); });
+</script>
+</body></html>
