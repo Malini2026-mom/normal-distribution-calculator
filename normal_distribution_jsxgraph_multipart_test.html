@@ -25,11 +25,24 @@ function parseBound(text){let v=text.trim().toLowerCase().replace(/\s/g,'').repl
 
 //function sendResult(value){if(window.parent!==window){window.parent.postMessage({type:'JSXGRAPH_RESULT',value:value},'https://www.myopenmath.com');}}//
 // added on November 7th//
-function sendResult(value){
+// deleted on Noverber 13
+      function sendResult(value){
   if(window.parent!==window && typeof value==='number'){
     window.parent.postMessage({type:'JSXGRAPH_RESULT',value:value},'*');
   }
-}window.addEventListener('message',e=>{if(e.data&&e.data.type==='REQUEST_RESULT'&&typeof lastValue==='number')sendResult(lastValue);});
+}
+changes deleted on november 13//
+function sendResult(value){
+  if(window.parent!==window && typeof value==='number'){
+    window.parent.postMessage({
+      type: 'JSXGRAPH_RESULT',
+      value: value,
+      mean: el('mu').value,
+      sd: el('sigma').value
+    }, '*');
+  }
+}
+window.addEventListener('message',e=>{if(e.data&&e.data.type==='REQUEST_RESULT'&&typeof lastValue==='number')sendResult(lastValue);});
 // addition of November 7 ended//
 function showFields(){const inverse=el('inverse').checked,inside=el('inside').checked,outside=el('outside').checked,right=el('right').checked;el('probEntry').hidden=!inverse;el('lowerEntry').hidden=inverse||!(right||inside||outside);el('upperEntry').hidden=inverse||right;}
 function clearResult(message){lastValue=null;el('result').textContent='';el('status').textContent=message;draw(0,1,[],[]);}
