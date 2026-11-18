@@ -39,6 +39,12 @@ function draw(mu,s,regions,bounds){if(!board)return;board.suspendUpdate();for(co
 for(const id of ['mu','sigma','prob','lower','upper'])el(id).addEventListener('input',render);for(const id of ['find','inverse','left','inside','outside','right'])el(id).addEventListener('change',render);
 el('reset').addEventListener('click',()=>{for(const id of ['mu','sigma','prob','lower','upper'])el(id).value='';el('find').checked=true;el('left').checked=true;render();});
 el('copy').addEventListener('click',async()=>{if(lastValue===null)return;const txt=Array.isArray(lastValue)?lastValue.join(', '):String(lastValue);try{await navigator.clipboard.writeText(txt);el('status').textContent='Result copied.';}catch{el('status').textContent='Copy unavailable in this browser.';}});
+const K=new URLSearchParams(location.search).get('k'),KEY=K?'ndcalc_'+K:null,FIELDS=['mu','sigma','prob','lower','upper'],RADIOS=['find','inverse','left','inside','outside','right'];
+function saveState(){if(!KEY)return;try{const s={};FIELDS.forEach(id=>{s[id]=el(id).value;});s.checked=RADIOS.filter(id=>el(id).checked);localStorage.setItem(KEY,JSON.stringify(s));}catch(err){}}
+function restoreState(){if(!KEY)return;try{const raw=localStorage.getItem(KEY);if(!raw)return;const s=JSON.parse(raw);FIELDS.forEach(id=>{if(typeof s[id]==='string')el(id).value=s[id];});if(Array.isArray(s.checked)){s.checked.forEach(id=>{if(RADIOS.includes(id))el(id).checked=true;});}}catch(err){}}
+for(const id of FIELDS)el(id).addEventListener('input',saveState);
+for(const id of RADIOS)el(id).addEventListener('change',saveState);
+el('reset').addEventListener('click',saveState);
 if(window.JXG){board=JXG.JSXGraph.initBoard('jxgbox',{boundingbox:[-4,.5,4,-.1],axis:false,showNavigation:false,showCopyright:false,pan:{enabled:false},zoom:{enabled:false},keepaspectratio:false});}else{el('jxgbox').textContent='JSXGraph could not load. Check your connection.';}render();
 })();
 </script></body></html>
