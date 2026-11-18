@@ -45,6 +45,6 @@ function restoreState(){if(!KEY)return;try{const raw=localStorage.getItem(KEY);i
 for(const id of FIELDS)el(id).addEventListener('input',saveState);
 for(const id of RADIOS)el(id).addEventListener('change',saveState);
 el('reset').addEventListener('click',saveState);
-if(window.JXG){board=JXG.JSXGraph.initBoard('jxgbox',{boundingbox:[-4,.5,4,-.1],axis:false,showNavigation:false,showCopyright:false,pan:{enabled:false},zoom:{enabled:false},keepaspectratio:false});}else{el('jxgbox').textContent='JSXGraph could not load. Check your connection.';}render();
+if(window.JXG){board=JXG.JSXGraph.initBoard('jxgbox',{boundingbox:[-4,.5,4,-.1],axis:false,showNavigation:false,showCopyright:false,pan:{enabled:false},zoom:{enabled:false},keepaspectratio:false});}else{el('jxgbox').textContent='JSXGraph could not load. Check your connection.';}restoreState();render();
 })();
 </script></body></html>
